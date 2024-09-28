@@ -1,0 +1,218 @@
+Current laptime
+
+// 20240920201950
+// http://127.0.0.1:8002/JSON/time
+
+{
+  "currentlaptime": "4:02.022"
+}
+
+Controls - players controller data
+
+// 20240920202051
+// http://127.0.0.1:8002/JSON/controls
+
+{
+  "steer": 0.0,
+  "throttle": 0.0,
+  "brake": 100.0,
+  "clutch": 100.0,
+  "revs": 900.0,
+  "glat": 0.0,
+  "glon": 0.0,
+  "gear": "N",
+  "drs": 0.0,
+  "kers": 0.0,
+  "fuelleft": 30.0
+}
+
+Current Packet - laptime + speed
+
+// 20240920202133
+// http://127.0.0.1:8002/JSON/currentPacket
+
+{
+  "currentlaptime": "5:44.703",
+  "currentspeed": "0.00"
+}
+
+
+Current position - Player's position in map
+
+// 20240920202148
+// http://127.0.0.1:8002/JSON/currentPosition
+
+{
+  "x": -313.82895,
+  "y": -0.079903424,
+  "z": -33.2151
+}
+
+Events - Available events in this mode
+{ "events" : [{"event" : "PRACTICE"},{"event" : "QUALIFYING"},{"event" : "RACE"},{"event" : "HOT LAP"},{"event" : "TIME ATTACK"},{"event" : "DRIFT"},{"event" : "DRAG"},{"event" : "HOT STINT"},{"event" : "HOT STINT SUPER POLE"},{"event" : "SUPER POLE"},{"event" : "EVENT 10"},{] }
+
+// 20240920202238
+// http://127.0.0.1:8002/JSON/laptimes
+
+{
+  "laptime": [
+    
+  ]
+}
+
+
+Sector times
+// 20240920202252
+// http://127.0.0.1:8002/JSON/sectortimes
+
+{
+  "currentlaptime": "7:03.912",
+  "currentlapS1": "-0.001",
+  "currentlapS2": "7:03.912",
+  "currentlapS3": "0.000"
+}
+
+Session best times
+// 20240920202355
+// http://127.0.0.1:8002/JSON/sessionbest
+
+{
+  "laptime": "-0.001",
+  "laptimesecs": "-0.001",
+  "bestlaptimedriver": "---",
+  "s1": "-0.001",
+  "bestS1driver": "---",
+  "s2": "-0.001",
+  "bestS2driver": "---",
+  "s3": "-0.001",
+  "bestS3driver": "---"
+}
+
+
+Session data
+// 20240920202415
+// http://127.0.0.1:8002/JSON/sessiondata
+
+{
+  "timeleft": "-510.22100830078125",
+  "totallaps": "1",
+  "tempair": "26.0",
+  "temptrack": "37.0"
+}
+
+Speed difference
+// 20240920202431
+// http://127.0.0.1:8002/JSON/speeddiff
+
+{
+  "speeddiff": 0,
+  "speeddiffstring": "0.000",
+  "blueSelected": "FASTEST"
+}
+
+Teams - available teams
+/ 20240920202506
+// http://127.0.0.1:8002/JSON/teams
+
+
+  "teams": [
+    {
+      "team": "0"
+    },
+    {
+      "team": "Abarth 500"
+    },
+    {
+      "team": "Abarth 500 Assetto Corse"
+    },
+    {
+      "team": "Abarth 595SS"
+    },
+    {
+      "team": "Alfa 33 Stradale"
+    },
+  ]
+
+Telemetry packet - base data for player's car
+// 20240920202518
+// http://127.0.0.1:8002/JSON/telemetrypacket
+
+
+Time difference
+// 20240920202537
+// http://127.0.0.1:8002/JSON/timediff
+
+{
+  "tdiff": 0.000,
+  "tdiffstring": "0.000",
+  "blueSelected": "FASTEST"
+}
+
+Track data - track info
+// 20240920202603
+// http://127.0.0.1:8002/JSON/track
+
+{
+  "track": "acu_bathurst_",
+  "trackid": "1003",
+  "tracklength": "6215.70947265625",
+  "event": "Practice",
+  "weather": "Not set",
+  "team": "Porsche 911 RSR 2017"
+}
+
+Tracks - list of tracks in this mode
+// 20240920202626
+// http://127.0.0.1:8002/JSON/tracks
+
+{
+  "tracks": [
+    {
+      "track": "Barcelona GP",
+      "trackid": "1",
+      "tracklen": "4591.88720703125"
+    },
+  ]
+  
+  }
+
+Weather type - available weather types
+// 20240920202647
+// http://127.0.0.1:8002/JSON/weathertype
+{
+  "weathertype": [
+    {
+      "weather": "NOT_SET"
+    },
+    {
+      "weather": "CLEAR"
+    },
+    {
+      "weather": "LIGHT_CLOUD"
+    },
+    {
+      "weather": "OVERCAST"
+    },
+    {
+      "weather": "LIGHT_RAIN"
+    },
+    {
+      "weather": "HEAVY_RAIN"
+    },
+    {
+      "weather": "STORM"
+    },
+    {
+      "weather": "DRIZZLE"
+    },
+    {
+      "weather": "MEDIUM_RAIN"
+    },
+    {
+      "weather": "SNOWING"
+    }
+  ]
+}
+
+Wheel stats - basic suspension and wheels data
+{"fl":Infinity,"fr":Infinity,"rl":100.62345,"rr":100.62345,"flsusp":0.08119821548461914,"frsusp":0.08119269460439682,"rlsusp":0.09603365510702133,"rrsusp":0.09601345658302307,"flbt":-247.14999999999998,"frbt":-247.14999999999998,"rlbt":-247.14999999999998,"rrbt":-247.14999999999998,"flwp":-251.81756057739256,"frwp":-251.81756057739256,"rlwp":-251.81756057739256,"rrwp":-251.81756057739256}
