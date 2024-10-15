@@ -3,6 +3,7 @@ import mmap
 import ctypes
 import tkinter as tk
 from tkinter import ttk
+from flaskapp import uploadGearData
 
 
 class SPageFilePhysics(ctypes.Structure):
@@ -77,7 +78,6 @@ gearCount = 0
 previousGear = -1
 brakeCount = 0
 
-
 def update_gui():
     global previousGear, gearCount
     # Update the GUI with telemetry data
@@ -89,8 +89,13 @@ def update_gui():
     if currentGear != previousGear and previousGear!=-1:
         print("Gear Changed")
         gearCount = gearCount + 1
+        gearCountData = {
+            "gear": gearCount
+        }
+        uploadGearData(gearCountData.jsonify())
         print("-----------------------------------------------")
         gearCountVar.set(f"Total Gear Changes: {gearCount}")
+        
 
     previousGear = currentGear
     rpm_var.set(f"RPM: {data.rpms}")
@@ -135,3 +140,5 @@ update_gui()
 
 # Start the Tkinter main loop
 root.mainloop()
+
+

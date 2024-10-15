@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assetto Corsa Telemetry</title>
+</head>
+<body>
+    <h1>Assetto Corsa Telemetry</h1>
+    <div>
+        <p id="gear">Gear: </p>
+        <p id="rpm">RPM: </p>
+        <p id="steering-angle">Steering Angle: </p>
+        <p id="speed">Speed: </p>
+        <p id="gear-count">Total Gear Changes: </p>
+    </div>
+    <script>
+        setInterval(function() {
+            fetch('/')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('gear').innerText = 'Gear: ' + data.gear;
+                    document.getElementById('rpm').innerText = 'RPM: ' + data.rpms;
+                    document.getElementById('steering-angle').innerText = 'Steering Angle: ' + data.steerAngle.toFixed(2) + '°';
+                    document.getElementById('speed').innerText = 'Speed: ' + data.speedKmh.toFixed(2) + ' km/h';
+                    document.getElementById('gear-count').innerText = 'Total Gear Changes: ' + data.gearCount;
+                });
+        }, 1000);
+    </script>
+</body>
+</html>
