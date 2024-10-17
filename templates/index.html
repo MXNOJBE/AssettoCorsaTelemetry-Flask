@@ -13,10 +13,14 @@
         <p id="steering-angle">Steering Angle: </p>
         <p id="speed">Speed: </p>
         <p id="gear-count">Total Gear Changes: </p>
+        <p id="status">Total Gear Changes: </p>
+        <p id="status">Session: </p>
+        <p id="playername">Player Name: </p>
+
     </div>
     <script>
         setInterval(function() {
-            fetch('/')
+            fetch('/update')
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById('gear').innerText = 'Gear: ' + data.gear;
@@ -24,6 +28,9 @@
                     document.getElementById('steering-angle').innerText = 'Steering Angle: ' + data.steerAngle.toFixed(2) + '°';
                     document.getElementById('speed').innerText = 'Speed: ' + data.speedKmh.toFixed(2) + ' km/h';
                     document.getElementById('gear-count').innerText = 'Total Gear Changes: ' + data.gearCount;
+                    document.getElementById('status').innerText = 'Status: ' + data.status;
+                    document.getElementById('session').innerText = 'Session: ' + data.session;
+                    document.getElementById('Player-Name').innerText = 'Name: ' + data.playerName;
                 });
         }, 1000);
     </script>
