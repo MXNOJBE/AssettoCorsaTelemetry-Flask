@@ -37,7 +37,7 @@ def index():
 
 @app.route('/update') 
 def update_data():
-    global previousGear, gearCount, old_telemetry_data, previousSessionList, previousStatus
+    global previousGear, gearCount, old_telemetry_data, previousSessionList, previousStatus, telemetry_data
 
     physicsData = read_physics_data()
     playerData = read_player_data()
@@ -65,7 +65,7 @@ def update_data():
             "session": graphicsData.session
         }
         previousSessionList.append(old_telemetry_data)
-        gearCount = 0  # Reset gear count for the next session
+        gearCount = 0 
         previousStatus = 0  # Reset status
 
     else:
