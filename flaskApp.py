@@ -1,13 +1,13 @@
 import time
 import mmap
 import ctypes
-from flask import Flask, jsonify, render_template
-from flask import Response
 import json
+from flask import Flask, jsonify, render_template
 from dataRepository import SPageFileStatic, SPageFilePhysics, SPageFileGraphic
 
 app = Flask(__name__)
 
+# Memory-mapped files
 physics = mmap.mmap(0, ctypes.sizeof(SPageFilePhysics), "Local\\acpmf_physics")
 miscellaneous = mmap.mmap(0, ctypes.sizeof(SPageFileStatic), "Local\\acpmf_static")
 graphics = mmap.mmap(0, ctypes.sizeof(SPageFileGraphic), "Local\\acpmf_graphics")
@@ -17,6 +17,9 @@ previousGear = -1
 previousSessionList = []
 old_telemetry_data = {}
 previousStatus = 0
+
+# File path to store previous session list
+PREVIOUS_SESSIONS_FILE = 'previous_sessions.json'
 
 def read_graphics_data():
     graphics.seek(0)
@@ -30,6 +33,17 @@ def read_player_data():
     miscellaneous.seek(0)
     return SPageFileStatic.from_buffer_copy(miscellaneous.read(ctypes.sizeof(SPageFileStatic)))
 
+def load_previous_sessions():
+    global previousSessionList
+    try:
+        with open(PREVIOUS_SESSIONS_FILE, 'r') as file:
+            previousSessionList = json.load(file)
+    except (FileNotFoundError, json.JSONDecodeError):
+        previousSessionList = []
+
+def save_previous_sessions():
+    with open(PREVIOUS_SESSIONS_FILE, 'w') as file:
+        json.dump(previousSessionList, file)
 
 @app.route('/web')
 def index():
@@ -44,14 +58,11 @@ def update_data():
     graphicsData = read_graphics_data()
     currentGear = physicsData.gear - 1
 
-    # Track gear count
     if currentGear != previousGear and previousGear != -1:
         gearCount += 1
     previousGear = currentGear
 
-    # Store session data if a session has ended
     if previousStatus != 0 and graphicsData.status == 0 and graphicsData.session == 0:
-        # Save the last session's telemetry data
         old_telemetry_data = {
             "gear": currentGear,
             "rpms": physicsData.rpms,
@@ -65,33 +76,31 @@ def update_data():
             "session": graphicsData.session
         }
         previousSessionList.append(old_telemetry_data)
+        save_previous_sessions()
         gearCount = 0 
-        previousStatus = 0  # Reset status
+        previousStatus = 0
 
-    else:
-        # Keep updating the telemetry data for an ongoing session
-        telemetry_data = {
-            "gear": currentGear,
-            "rpms": physicsData.rpms,
-            "steerAngle": physicsData.steerAngle,
-            "speedKmh": physicsData.speedKmh,
-            "gearCount": gearCount,
-            "playerName": playerData.playerName, 
-            "carModel": playerData.carModel,
-            "maxPower": playerData.maxPower,
-            "status": graphicsData.status,
-            "session": graphicsData.session
-        }
-        previousStatus = graphicsData.status  # Keep track of the status for next update
+    telemetry_data = {
+        "gear": currentGear,
+        "rpms": physicsData.rpms,
+        "steerAngle": physicsData.steerAngle,
+        "speedKmh": physicsData.speedKmh,
+        "gearCount": gearCount,
+        "playerName": playerData.playerName, 
+        "carModel": playerData.carModel,
+        "maxPower": playerData.maxPower,
+        "status": graphicsData.status,
+        "session": graphicsData.session
+    }
+    previousStatus = graphicsData.status
 
     return jsonify(telemetry_data)
-
 
 @app.route('/previousSessions')
 def previousSessions():
     global previousSessionList
     return jsonify(previousSessionList)
 
-
 if __name__ == '__main__':
+    load_previous_sessions()
     app.run(debug=True)
