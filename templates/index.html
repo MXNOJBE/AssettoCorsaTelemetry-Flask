@@ -3,36 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assetto Corsa Telemetry</title>
+    <title>Telemetry Monitor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f9ff;
+            color: #333;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #005f73;
+        }
+        .data-section {
+            margin-bottom: 40px;
+        }
+        .data-section h2 {
+            color: #0a9396;
+        }
+        pre {
+            background-color: #e9ecef;
+            padding: 10px;
+            border-radius: 5px;
+            overflow: auto;
+        }
+    </style>
 </head>
 <body>
-    <h1>Assetto Corsa Telemetry</h1>
-    <div>
-        <p id="gear">Gear: </p>
-        <p id="rpm">RPM: </p>
-        <p id="steering-angle">Steering Angle: </p>
-        <p id="speed">Speed: </p>
-        <p id="gear-count">Total Gear Changes: </p>
-        <p id="status">Total Gear Changes: </p>
-        <p id="status">Session: </p>
-        <p id="playername">Player Name: </p>
+    <div class="container">
+        <h1>Assetto Corsa Telemetry Monitor</h1>
 
+        <!-- Live Telemetry Data -->
+        <div class="data-section">
+            <h2>Live Telemetry Data</h2>
+            <pre id="live-data">Loading...</pre>
+        </div>
+
+        <!-- Previous Sessions -->
+        <div class="data-section">
+            <h2>Previous Sessions</h2>
+            <pre id="previous-sessions">Loading...</pre>
+        </div>
     </div>
+
     <script>
-        setInterval(function() {
+        function fetchTelemetryData() {
             fetch('/update')
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById('gear').innerText = 'Gear: ' + data.gear;
-                    document.getElementById('rpm').innerText = 'RPM: ' + data.rpms;
-                    document.getElementById('steering-angle').innerText = 'Steering Angle: ' + data.steerAngle.toFixed(2) + '°';
-                    document.getElementById('speed').innerText = 'Speed: ' + data.speedKmh.toFixed(2) + ' km/h';
-                    document.getElementById('gear-count').innerText = 'Total Gear Changes: ' + data.gearCount;
-                    document.getElementById('status').innerText = 'Status: ' + data.status;
-                    document.getElementById('session').innerText = 'Session: ' + data.session;
-                    document.getElementById('Player-Name').innerText = 'Name: ' + data.playerName;
+                    console.log("Fetched Data:", data);  // Log the fetched data
+                    document.getElementById('live-data').textContent = JSON.stringify(data, null, 4);
+                })
+                .catch(error => {
+                    console.error('Error fetching telemetry data:', error);
+                    document.getElementById('live-data').textContent = 'Error loading live telemetry data: ' + error;
                 });
-        }, 1000);
+        }
+
+
+        function fetchPreviousSessions() {
+            fetch('/previousSessions')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('previous-sessions').textContent = JSON.stringify(data, null, 4);
+                })
+                .catch(error => {
+                    document.getElementById('previous-sessions').textContent = 'Error loading previous sessions: ' + error;
+                });
+        }
+
+        // Fetch data every 5 seconds
+        setInterval(() => {
+            fetchTelemetryData();
+            fetchPreviousSessions();
+        }, 5000);
+
+        // Initial fetch on page load
+        fetchTelemetryData();
+        fetchPreviousSessions();
     </script>
 </body>
 </html>
